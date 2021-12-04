@@ -25,7 +25,11 @@ function Shop(props) {
 
   function updateOrder(id) {
     if (!getItemFromOrder(id)) {
-      addOrder(id);
+      const item = getItemFromGoods(id);
+      item.itemsCountCart = 1;
+      console.log(item);
+
+      // addOrder(id);
     }
   }
 
