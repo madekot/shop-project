@@ -1,7 +1,7 @@
 import GoodsItem from './Goods-item';
 
 function GoodsList(props) {
-  const { goods = [] } = props;
+  const { goods = [], updateOrder } = props;
 
   if (!goods.length) {
     return <h3>Nothing here</h3>;
@@ -10,8 +10,8 @@ function GoodsList(props) {
   return (
     <div className="goods">
       {goods.map((item) => {
-        const { id, ...itemProps } = item;
-        return <GoodsItem key={id} {...itemProps} />;
+        const { id } = item;
+        return <GoodsItem key={id} {...item} updateOrder={updateOrder} />;
       })}
     </div>
   );
