@@ -4,33 +4,40 @@ import { API_KEY, API_URL } from '../config';
 import Preloader from './Preloader';
 import GoodsList from './Goods-list';
 import Cart from './Card';
+import BasketList from './BasketList';
 
 function Shop(props) {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
+  const [isBasketShow, setBasketShow] = useState(false);
 
-  function getItemFromGoods(id) {
-    return goods.find((good) => good.id === id);
+  function addToOrder(id) {
+    const productFromGoods = goods.find((product) => product.id === id);
+    productFromGoods.quantity = 1;
+    setOrder([...order, productFromGoods]);
   }
 
-  function getItemFromOrder(id) {
-    return order.find((good) => good.id === id);
+  function addQuantity(id) {
+    const productFromOrders = order.find((product) => product.id === id);
+    const idx = order.findIndex((product) => product.id === id);
+    productFromOrders.quantity += 1;
+
+    setOrder([
+      ...order.slice(0, idx),
+      productFromOrders,
+      ...order.slice(idx + 1),
+    ]);
   }
 
-  function addOrder(id) {
-    const good = getItemFromGoods(id);
-    setOrder([...order, good]);
+  function addToBasket(id) {
+    const hasOrderProduct =
+      order.findIndex((product) => product.id === id) > -1;
+    hasOrderProduct ? addQuantity(id) : addToOrder(id);
   }
 
-  function updateOrder(id) {
-    if (!getItemFromOrder(id)) {
-      const item = getItemFromGoods(id);
-      item.itemsCountCart = 1;
-      console.log(item);
-
-      // addOrder(id);
-    }
+  function hadleBasketShow() {
+    setBasketShow(!isBasketShow);
   }
 
   useEffect(function getGoods() {
@@ -48,11 +55,14 @@ function Shop(props) {
 
   return (
     <main className="container content">
-      <Cart quantity={order.length} />
+      <Cart quantity={order.length} hadleBasketShow={hadleBasketShow} />
       {loading ? (
         <Preloader />
       ) : (
-        <GoodsList goods={goods} updateOrder={updateOrder} />
+        <GoodsList goods={goods} addToBasket={addToBasket} />
+      )}
+      {isBasketShow && (
+        <BasketList order={order} hadleBasketShow={hadleBasketShow} />
       )}
     </main>
   );

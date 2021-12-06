@@ -1,6 +1,5 @@
 function GoodsItem(props) {
-  const { id, name, description, price, full_background, updateOrder } = props;
-
+  const { id, name, description, price, full_background, addToBasket } = props;
   return (
     <div className="card">
       <div className="card-image">
@@ -14,7 +13,7 @@ function GoodsItem(props) {
         <button
           className="btn"
           onClick={() => {
-            updateOrder(id);
+            addToBasket(id);
           }}
         >
           Купить
