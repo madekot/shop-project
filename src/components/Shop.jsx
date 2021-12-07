@@ -12,12 +12,16 @@ function Shop() {
   const [order, setOrder] = useState([]);
   const [isBasketShow, setBasketShow] = useState(false);
 
-  function addToOrder(id) {
+  function addOrderToBasket(id) {
     const productFromGoods = goods.find((product) => product.id === id);
     setOrder([...order, productFromGoods]);
   }
 
-  function addQuantityToOrder(id) {
+  function removeOrderFromBasket(orderId) {
+    setOrder(order.filter((orderItem) => orderItem.id !== orderId));
+  }
+
+  function incriseQuantityToOrder(id) {
     setOrder((prevOrder) =>
       prevOrder.map((product) => {
         const quantity = (product.quantity || 0) + 1;
@@ -26,14 +30,24 @@ function Shop() {
     );
   }
 
-  function addToBasket(id) {
-    const hasOrderProduct =
-      order.findIndex((product) => product.id === id) > -1;
+  function decreaseQuantityToOrder(id) {
+    setOrder((prevOrder) =>
+      prevOrder.map((product) => {
+        let quantity = product.quantity || 0;
+        quantity = quantity > 1 ? quantity - 1 : 1;
+        return product.id === id ? { ...product, quantity } : product;
+      }),
+    );
+  }
 
-    if (!hasOrderProduct) {
-      addToOrder(id);
+  function addToBasket(goodsId) {
+    const hasProductOrder =
+      order.findIndex(({ id: orderId }) => orderId === goodsId) > -1;
+
+    if (!hasProductOrder) {
+      addOrderToBasket(goodsId);
     }
-    addQuantityToOrder(id);
+    incriseQuantityToOrder(goodsId);
   }
 
   function hadleBasketShow() {
@@ -62,7 +76,13 @@ function Shop() {
         <GoodsList goods={goods} addToBasket={addToBasket} />
       )}
       {isBasketShow && (
-        <BasketList order={order} hadleBasketShow={hadleBasketShow} />
+        <BasketList
+          order={order}
+          hadleBasketShow={hadleBasketShow}
+          removeOrderFromBasket={removeOrderFromBasket}
+          incriseQuantityToOrder={incriseQuantityToOrder}
+          decreaseQuantityToOrder={decreaseQuantityToOrder}
+        />
       )}
     </main>
   );
