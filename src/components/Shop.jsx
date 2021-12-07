@@ -6,7 +6,7 @@ import GoodsList from './Goods-list';
 import Cart from './Card';
 import BasketList from './BasketList';
 
-function Shop(props) {
+function Shop() {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
@@ -14,26 +14,26 @@ function Shop(props) {
 
   function addToOrder(id) {
     const productFromGoods = goods.find((product) => product.id === id);
-    productFromGoods.quantity = 1;
     setOrder([...order, productFromGoods]);
   }
 
-  function addQuantity(id) {
-    const productFromOrders = order.find((product) => product.id === id);
-    const idx = order.findIndex((product) => product.id === id);
-    productFromOrders.quantity += 1;
-
-    setOrder([
-      ...order.slice(0, idx),
-      productFromOrders,
-      ...order.slice(idx + 1),
-    ]);
+  function addQuantityToOrder(id) {
+    setOrder((prevOrder) =>
+      prevOrder.map((product) => {
+        const quantity = (product.quantity || 0) + 1;
+        return product.id === id ? { ...product, quantity } : product;
+      }),
+    );
   }
 
   function addToBasket(id) {
     const hasOrderProduct =
       order.findIndex((product) => product.id === id) > -1;
-    hasOrderProduct ? addQuantity(id) : addToOrder(id);
+
+    if (!hasOrderProduct) {
+      addToOrder(id);
+    }
+    addQuantityToOrder(id);
   }
 
   function hadleBasketShow() {
