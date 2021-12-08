@@ -5,12 +5,14 @@ import Preloader from './Preloader';
 import GoodsList from './Goods-list';
 import Cart from './Card';
 import BasketList from './BasketList';
+import Alert from './Alert';
 
 function Shop() {
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
   const [isBasketShow, setBasketShow] = useState(false);
+  const [alertName, setAlertName] = useState('');
 
   function addOrderToBasket(id) {
     const productFromGoods = goods.find((product) => product.id === id);
@@ -41,17 +43,23 @@ function Shop() {
   }
 
   function addToBasket(goodsId) {
-    const hasProductOrder =
-      order.findIndex(({ id: orderId }) => orderId === goodsId) > -1;
+    const hasIdsame = ({ id: orderId }) => orderId === goodsId;
+    const name = goods.find(hasIdsame).name;
+    const hasProductOrder = order.findIndex(hasIdsame) > -1;
 
     if (!hasProductOrder) {
       addOrderToBasket(goodsId);
     }
     incriseQuantityToOrder(goodsId);
+    setAlertName(name);
   }
 
   function hadleBasketShow() {
     setBasketShow(!isBasketShow);
+  }
+
+  function closeAlert() {
+    setAlertName('');
   }
 
   useEffect(function getGoods() {
@@ -84,6 +92,7 @@ function Shop() {
           decreaseQuantityToOrder={decreaseQuantityToOrder}
         />
       )}
+      {alertName && <Alert name={alertName} closeAlert={closeAlert} />}
     </main>
   );
 }
