@@ -1,5 +1,29 @@
+import { useContext } from 'react';
+import { ShopContext } from '../context';
+
 function GoodsItem(props) {
-  const { id, name, description, price, fullBackground, addToBasket } = props;
+  const {
+    goods,
+    order,
+    addOrderToBasket,
+    incriseQuantityToOrder,
+    setAlertName,
+  } = useContext(ShopContext);
+
+  const { id, name, description, price, fullBackground } = props;
+
+  function addToBasket(goodsId) {
+    const hasIdsame = (el) => el.id === goodsId;
+    const name = goods.find(hasIdsame).name;
+    const hasProductOrder = order.findIndex(hasIdsame) > -1;
+
+    if (!hasProductOrder) {
+      addOrderToBasket(goodsId);
+    }
+    incriseQuantityToOrder(goodsId);
+    setAlertName(name);
+  }
+
   return (
     <div className="card">
       <div className="card-image">

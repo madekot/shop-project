@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react';
+
 import { ShopContext } from '../context';
 import { API_KEY, API_URL } from '../config';
 
@@ -9,40 +10,8 @@ import BasketList from './BasketList';
 import Alert from './Alert';
 
 function Shop() {
-  const {
-    goods,
-    order,
-    loading,
-    setGoods,
-    addOrderToBasket,
-    removeOrderFromBasket,
-    incriseQuantityToOrder,
-    decreaseQuantityToOrder,
-    setBasketShow,
-    isBasketShow,
-    alertName,
-    setAlertName,
-  } = useContext(ShopContext);
-
-  function addToBasket(goodsId) {
-    const hasIdsame = (el) => el.id === goodsId;
-    const name = goods.find(hasIdsame).name;
-    const hasProductOrder = order.findIndex(hasIdsame) > -1;
-
-    if (!hasProductOrder) {
-      addOrderToBasket(goodsId);
-    }
-    incriseQuantityToOrder(goodsId);
-    setAlertName(name);
-  }
-
-  function hadleBasketShow() {
-    setBasketShow(!isBasketShow);
-  }
-
-  function closeAlert() {
-    setAlertName('');
-  }
+  const { loading, setGoods, isBasketShow, alertName } =
+    useContext(ShopContext);
 
   const getDataTransfom = (data) => {
     return data.map((itemData) => {
@@ -80,22 +49,10 @@ function Shop() {
 
   return (
     <main className="container content">
-      <Cart quantity={order.length} hadleBasketShow={hadleBasketShow} />
-      {loading ? (
-        <Preloader />
-      ) : (
-        <GoodsList goods={goods} addToBasket={addToBasket} />
-      )}
-      {isBasketShow && (
-        <BasketList
-          order={order}
-          hadleBasketShow={hadleBasketShow}
-          removeOrderFromBasket={removeOrderFromBasket}
-          incriseQuantityToOrder={incriseQuantityToOrder}
-          decreaseQuantityToOrder={decreaseQuantityToOrder}
-        />
-      )}
-      {alertName && <Alert name={alertName} closeAlert={closeAlert} />}
+      <Cart />
+      {loading ? <Preloader /> : <GoodsList />}
+      {isBasketShow && <BasketList />}
+      {alertName && <Alert />}
     </main>
   );
 }
