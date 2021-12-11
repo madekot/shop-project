@@ -9,7 +9,8 @@ import BasketList from './BasketList';
 import Alert from './Alert';
 
 function Shop() {
-  const { setGoodsNew, addOrderToBasketNew } = useContext(ShopContext);
+  const { setGoodsNew, addOrderToBasketNew, decreaseQuantityToOrderNew } =
+    useContext(ShopContext);
 
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,6 +58,7 @@ function Shop() {
     setAlertName(name);
 
     addOrderToBasketNew(goodsId);
+    decreaseQuantityToOrderNew(goodsId);
   }
 
   function hadleBasketShow() {
@@ -80,6 +82,7 @@ function Shop() {
 
         setGoodsNew(featured);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
