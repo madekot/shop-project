@@ -12,7 +12,7 @@ function BasketItem(props) {
     decreaseQuantityToOrder,
   } = props;
 
-  const { example } = useContext(ShopContext);
+  const example = useContext(ShopContext);
   console.log(example);
 
   return (
