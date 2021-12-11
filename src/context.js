@@ -13,23 +13,33 @@ const initialState = {
 export const ContextProvider = ({ children }) => {
   const [value, dispatch] = useReducer(reducer, initialState);
 
-  // value.setGoods = () => {};
+  value.setGoods = (data) => {
+    dispatch({ type: 'SET_GOODS', payload: data });
+  };
 
-  // value.addOrderToBasket = () => {};
+  value.addOrderToBasket = (id) => {
+    dispatch({ type: 'ADD_ORDER_TO_BASKET', payload: { id } });
+  };
 
-  // value.removeOrderFromBasket = () => {};
+  value.removeOrderFromBasket = (id) => {
+    dispatch({ type: 'REMOVE_ORDER_FROM_BASKET', payload: { id } });
+  };
 
-  // value.incriseQuantityToOrder = () => {};
+  value.incriseQuantityToOrder = (id) => {
+    dispatch({ type: 'INCRISE_QUANTITY_TO_ORDER', payload: { id } });
+  };
 
-  // value.decreaseQuantityToOrder = () => {};
+  value.decreaseQuantityToOrder = (id) => {
+    dispatch({ type: 'DECREASE_QUANTITY_TO_ORDER', payload: { id } });
+  };
 
-  // value.addToBasket = () => {};
+  value.setBasketShow = (isBasketShow) => {
+    dispatch({ type: 'SET_BASKET_SHOW', payload: { isBasketShow } });
+  };
 
-  // value.hadleBasketShow = () => {};
-
-  // value.closeAlert = () => {};
-
-  // value.hasProductOrder = () => {};
+  value.setAlertName = (name) => {
+    dispatch({ type: 'SET_ALERT_NAME', payload: { name } });
+  };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };

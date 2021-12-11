@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { ShopContext } from '../context';
 import { API_KEY, API_URL } from '../config';
 
@@ -9,45 +9,23 @@ import BasketList from './BasketList';
 import Alert from './Alert';
 
 function Shop() {
-  const { setGoodsNew, addOrderToBasketNew, decreaseQuantityToOrderNew } =
-    useContext(ShopContext);
-
-  const [goods, setGoods] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [order, setOrder] = useState([]);
-  const [isBasketShow, setBasketShow] = useState(false);
-  const [alertName, setAlertName] = useState('');
-
-  function addOrderToBasket(id) {
-    const productFromGoods = goods.find((product) => product.id === id);
-    setOrder([...order, productFromGoods]);
-  }
-
-  function removeOrderFromBasket(orderId) {
-    setOrder(order.filter((orderItem) => orderItem.id !== orderId));
-  }
-
-  function incriseQuantityToOrder(id) {
-    setOrder((prevOrder) =>
-      prevOrder.map((product) => {
-        const quantity = (product.quantity || 0) + 1;
-        return product.id === id ? { ...product, quantity } : product;
-      }),
-    );
-  }
-
-  function decreaseQuantityToOrder(id) {
-    setOrder((prevOrder) =>
-      prevOrder.map((product) => {
-        let quantity = product.quantity || 0;
-        quantity = quantity > 1 ? quantity - 1 : 1;
-        return product.id === id ? { ...product, quantity } : product;
-      }),
-    );
-  }
+  const {
+    goods,
+    order,
+    loading,
+    setGoods,
+    addOrderToBasket,
+    removeOrderFromBasket,
+    incriseQuantityToOrder,
+    decreaseQuantityToOrder,
+    setBasketShow,
+    isBasketShow,
+    alertName,
+    setAlertName,
+  } = useContext(ShopContext);
 
   function addToBasket(goodsId) {
-    const hasIdsame = ({ id: orderId }) => orderId === goodsId;
+    const hasIdsame = (el) => el.id === goodsId;
     const name = goods.find(hasIdsame).name;
     const hasProductOrder = order.findIndex(hasIdsame) > -1;
 
@@ -56,9 +34,6 @@ function Shop() {
     }
     incriseQuantityToOrder(goodsId);
     setAlertName(name);
-
-    addOrderToBasketNew(goodsId);
-    decreaseQuantityToOrderNew(goodsId);
   }
 
   function hadleBasketShow() {
@@ -98,8 +73,7 @@ function Shop() {
       .then((response) => response.json())
       .then(({ featured }) => {
         const dataTransfom = getDataTransfom(featured);
-        featured && setGoods(dataTransfom);
-        setLoading(false);
+        setGoods(dataTransfom);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
