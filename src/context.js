@@ -13,44 +13,23 @@ const initialState = {
 export const ContextProvider = ({ children }) => {
   const [value, dispatch] = useReducer(reducer, initialState);
 
-  value.setGoodsNew = (data) => {
-    dispatch({ type: 'SET_GOODS', payload: data });
-  };
+  // value.setGoods = () => {};
 
-  value.addOrderToBasketNew = (id) => {
-    dispatch({ type: 'ADD_ORDER_TO_BASKET', payload: { idOrder: id } });
-  };
+  // value.addOrderToBasket = () => {};
 
-  value.removeOrderFromBasket = (orderId) => {
-    dispatch({ type: 'REMOVE_ORDER_FROM_BASKET', payload: { id: orderId } });
-  };
+  // value.removeOrderFromBasket = () => {};
 
-  value.incriseQuantityToOrder = (id) => {
-    dispatch({ type: 'INCRISE_QUANTITY_TO_ORDER', payload: { id } });
-  };
+  // value.incriseQuantityToOrder = () => {};
 
-  value.decreaseQuantityToOrderNew = (id) => {
-    dispatch({
-      type: 'DECREASE_QUANTITY_TO_ORDER',
-      payload: { id },
-    });
-  };
+  // value.decreaseQuantityToOrder = () => {};
 
-  value.addToBasket = (goodsId) => {
-    dispatch({ type: 'ADD_TO_BASKET', payload: { id: goodsId } });
-  };
+  // value.addToBasket = () => {};
 
-  value.hadleBasketShow = () => {
-    dispatch({ type: 'HADLE_BASKET_SHOW' });
-  };
+  // value.hadleBasketShow = () => {};
 
-  value.closeAlert = () => {
-    dispatch({ type: 'CLOSE_ALERT' });
-  };
+  // value.closeAlert = () => {};
 
-  value.hasProductOrder = () => {
-    dispatch({ type: 'HAS_PRODUCT_ORDER' });
-  };
+  // value.hasProductOrder = () => {};
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };

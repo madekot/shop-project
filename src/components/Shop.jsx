@@ -69,6 +69,26 @@ function Shop() {
     setAlertName('');
   }
 
+  const getDataTransfom = (data) => {
+    return data.map((itemData) => {
+      const {
+        id,
+        name,
+        description,
+        price,
+        full_background: fullBackground,
+      } = itemData;
+
+      return {
+        id,
+        name,
+        description,
+        price,
+        fullBackground,
+      };
+    });
+  };
+
   useEffect(function getGoods() {
     fetch(API_URL, {
       headers: {
@@ -77,10 +97,9 @@ function Shop() {
     })
       .then((response) => response.json())
       .then(({ featured }) => {
-        featured && setGoods(featured);
+        const dataTransfom = getDataTransfom(featured);
+        featured && setGoods(dataTransfom);
         setLoading(false);
-
-        setGoodsNew(featured);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

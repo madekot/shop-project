@@ -1,9 +1,9 @@
 function GoodsItem(props) {
-  const { id, name, description, price, full_background, addToBasket } = props;
+  const { id, name, description, price, fullBackground, addToBasket } = props;
   return (
     <div className="card">
       <div className="card-image">
-        <img src={full_background} alt={name} />
+        <img src={fullBackground} alt={name} />
       </div>
       <div className="card-content">
         <span className="card-title">{name}</span>
