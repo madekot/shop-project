@@ -21,6 +21,14 @@ export const ContextProvider = ({ children }) => {
     dispatch({ type: 'REMOVE_ORDER_FROM_BASKET', payload: { id: orderId } });
   };
 
+  value.setGoodsNew = (data) => {
+    dispatch({ type: 'SET_GOODS', payload: data });
+  };
+
+  value.addOrderToBasketNew = (id) => {
+    dispatch({ type: 'ADD_ORDER_TO_BASKET', payload: { idOrder: id } });
+  };
+
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
 

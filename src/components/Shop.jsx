@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { ShopContext } from '../context';
 import { API_KEY, API_URL } from '../config';
 
 import Preloader from './Preloader';
@@ -8,6 +9,8 @@ import BasketList from './BasketList';
 import Alert from './Alert';
 
 function Shop() {
+  const { setGoodsNew, addOrderToBasketNew } = useContext(ShopContext);
+
   const [goods, setGoods] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState([]);
@@ -52,6 +55,8 @@ function Shop() {
     }
     incriseQuantityToOrder(goodsId);
     setAlertName(name);
+
+    addOrderToBasketNew(goodsId);
   }
 
   function hadleBasketShow() {
@@ -72,6 +77,8 @@ function Shop() {
       .then(({ featured }) => {
         featured && setGoods(featured);
         setLoading(false);
+
+        setGoodsNew(featured);
       });
   }, []);
 
