@@ -1,39 +1,18 @@
-import { useContext } from 'react';
-import { ShopContext } from '../context';
+import { Incrise, Decrise, Close } from './Button';
 
 function BasketItem(props) {
-  const {
-    removeOrderFromBasket,
-    incriseQuantityToOrder,
-    decreaseQuantityToOrder,
-  } = useContext(ShopContext);
-
   const { id, name, price, quantity } = props;
+  const priceItem = price * quantity;
 
   return (
     <li className="collection-item">
-      {name}{' '}
-      <i
-        className="material-icons basket-quantity"
-        onClick={() => decreaseQuantityToOrder(id)}
-      >
-        remove
-      </i>{' '}
-      x{quantity}{' '}
-      <i
-        className="material-icons basket-quantity"
-        onClick={() => incriseQuantityToOrder(id)}
-      >
-        add
-      </i>{' '}
-      = {price * quantity} руб.
+      {name}&nbsp;
+      <Incrise id={id}>remove</Incrise>
+      &nbsp;{quantity}&nbsp;
+      <Decrise id={id}>add</Decrise>
+      {`= ${priceItem} руб.`}
       <span className="secondary-content">
-        <i
-          className="material-icons basket-delete"
-          onClick={() => removeOrderFromBasket(id)}
-        >
-          close
-        </i>
+        <Close id={id}>close</Close>
       </span>
     </li>
   );

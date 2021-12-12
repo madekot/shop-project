@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
-
 import { ShopContext } from '../context';
-import { API_KEY, API_URL } from '../config';
+
+import Services from '../Services';
 
 import Preloader from './Preloader';
 import GoodsList from './Goods-list';
@@ -10,40 +10,12 @@ import BasketList from './BasketList';
 import Alert from './Alert';
 
 function Shop() {
+  const services = new Services();
   const { loading, setGoods, isBasketShow, alertName } =
     useContext(ShopContext);
 
-  const getDataTransfom = (data) => {
-    return data.map((itemData) => {
-      const {
-        id,
-        name,
-        description,
-        price,
-        full_background: fullBackground,
-      } = itemData;
-
-      return {
-        id,
-        name,
-        description,
-        price,
-        fullBackground,
-      };
-    });
-  };
-
   useEffect(function getGoods() {
-    fetch(API_URL, {
-      headers: {
-        Authorization: API_KEY,
-      },
-    })
-      .then((response) => response.json())
-      .then(({ featured }) => {
-        const dataTransfom = getDataTransfom(featured);
-        setGoods(dataTransfom);
-      });
+    services.getData().then((data) => setGoods(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

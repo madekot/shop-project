@@ -3,7 +3,7 @@ import { ShopContext } from '../context';
 
 import { BasketItem } from './BasketItem';
 
-function BasketList(props) {
+function BasketList() {
   const { order, setBasketShow, isBasketShow } = useContext(ShopContext);
 
   function hadleBasketShow() {

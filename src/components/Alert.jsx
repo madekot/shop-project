@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-
 import { ShopContext } from '../context';
 
 function Alert() {

@@ -1,10 +1,11 @@
 function Footer() {
+  const date = new Date().getFullYear();
   return (
     <footer className="page-footer green lighten-4">
       <div className="container"></div>
       <div className="footer-copyright">
         <div className="container">
-          © {new Date().getFullYear()} Copyright Text
+          © {date} Copyright Text
           <a className="grey-text text-lighten-4 right" href="#!">
             Repo
           </a>
